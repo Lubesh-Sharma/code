@@ -2,45 +2,47 @@
 using namespace std;
 int main()
 {
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
+    int temp;
+    cin >> temp;
+    while (temp--)
+    {
+        string s1;
+        string s2;
+        int m = 0;
+        cin >> s1;
+        cin >> s2;
 
-    int n;
-    cin >> n;
-    int A[n], B[n];
-    int i, j;
-    for (i = 0; i < n; i++)
-    {
-        cin >> A[i] >> B[i];
-    }
-    int count = 1;
-    int maxcount = 0;
-    for (i = 0; i < n - 1; i++)
-    {
-        count = 1;
-        for (j = i + 1; j < n; j++)
+        vector<int> array1;
+        vector<int> array2;
+
+        for (int i = 0; i < s1.size(); i++)
         {
-            if (A[i] == A[j] && B[i] == B[j])
+            if ((s1[i] == s2[i]) && (s1[i] == '0'))
+                array1.push_back(i);
+
+            else if ((s1[i] == s2[i]) && (s1[i] == '1'))
+                array2.push_back(i);
+        }
+
+        for (int i = 0; i < array2.size(); i++)
+        {
+            for (int j = 0; j < array1.size(); j++)
             {
-                count++;
-            }
-            else
-            {
-                if (maxcount < count)
+                if (array2[i] - array1[j] == 1)
                 {
-                    maxcount = count;
+                    cout << "yes"
+                         << "\n";
+                    m++;
+                    break;
                 }
-                break;
             }
+
+            if (m > 0)
+                break;
         }
 
-        if (maxcount < count)
-        {
-            maxcount = count;
-        }
+        if (m == 0)
+            cout << "no"
+                 << "\n";
     }
-    cout << maxcount;
-    return 0;
 }
