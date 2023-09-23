@@ -1,84 +1,59 @@
-# include <stdio.h>
-# include <string.h>
-char input[50];
-
-int check(char output[],int a)
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <string.h>
+int cal_time(char s1[], char s2[])
 {
-    int i,j,k;
-    for(i=0;i<=a;i++)
-    {
-        k=1;
-        for(j=0;j<a;j++)
-        {
-            if(input[j]!=output[i+j])
-            {
-                k=0;
-                break;
-            }
-        }
-        if(k==1)
-        {
-            return 0;
-        }
-    }
-    return 1;
+    int time = ((int)(s2[8] - s1[8]) * 10 + (int)(s2[9] - s1[9])) * 24 + (int)(s2[11] - s1[11]) * 10 + (int)(s2[12] - s1[12]);
+    return time;
 }
-
-int add(char output[],int a,int count1,int count2,int b)
-{
-    if(count1+count2==2*a)
-    {
-        if(check(output,a))
-        {
-            printf("Yes\n%s\n",output);
-            return 1;
-        }
-        else return 0;
-    }
-    else
-    {
-        b=b+1;
-        if(count1<a)
-        {
-            output[b]='(';
-            count1++;
-            if(add(output,a,count1,count2,b)==1)
-            {
-                return 1;
-            }
-            count1--;
-        }
-        if(count2<a)
-        {
-            output[b]=')';
-            count2++;
-            if(add(output,a,count1,count2,b)==1)
-            {
-                return 1;
-            }
-            else
-            {
-                output[b]='\0';
-                count2--;
-            }
-        }
-    }
-    return 0;
-}
-
 int main()
 {
-    int n,i,a;
-    scanf("%d",&n);
-    for(i=0;i<n;i++)
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+
+    char s1[17], s2[17];
+    scanf("%s %s", s1, s2);
+    printf("%s\n%s\n", s1, s2);
+    int time = cal_time(s1, s2);
+    printf("time = %d\n", time);
+    int hour = (int)(s1[11] - '0') + (int)(s1[12] - '0');
+    printf("hour = %d\n", hour);
+    int w, j;
+    scanf("%d %d", &w, &j);
+    int count = 0;
+    while (1)
     {
-        scanf("%s",input);
-        a=strlen(input);
-        char out[2*a];
-        out[0]='(';
-        if(add(out,a,1,0,0)!=1)
+        if (time == 0)
         {
-            printf("No\n");
+            break;
+        }
+        if (time > 0 && ((hour + w) % 24) != 0)
+        {
+            if (count == 1)
+            {
+                printf("no\n");
+                break;
+            }
+            time = time - w;
+            // printf("time = %d\n", time);
+            hour = (hour + w) % 24;
+            // printf("hour = %d\n", hour);
+            printf("w\n");
+        }
+        else
+        {
+            if (time < 0)
+            {
+                count = 1;
+            }
+            time = time + j;
+            // printf("time = %d\n", time);
+            hour = (hour - j + 24) % 24;
+            // printf("hour = %d\n", hour);
+            printf("a\n");
         }
     }
     return 0;

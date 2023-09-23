@@ -1,48 +1,49 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+int XOR(int X, int Y)
+{
+    int result = 0;
+    int mask = 1;
+    for (int i = 0; i < 32; i++) {
+        int bitX = (X & mask) > 0;
+        int bitY = (Y & mask) > 0;
+        int xorBit = (bitX ^ bitY);
+        result |= (xorBit << i);
+        mask <<= 1;
+    }
+    return result;
+}
+
+
 int main()
 {
-    int temp;
-    cin >> temp;
-    while (temp--)
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+
+    int T;
+    cin >> T;
+    while (T--)
     {
-        string s1;
-        string s2;
-        int m = 0;
-        cin >> s1;
-        cin >> s2;
-
-        vector<int> array1;
-        vector<int> array2;
-
-        for (int i = 0; i < s1.size(); i++)
+        // int n;
+        // cin>>n;
+        int i, j;
+        // int X[n];
+        // for(i=0;i<n;i++)
+        // {
+        //     cin>>X[i];
+        // }
+        for (i = 0; i < 16; i++)
         {
-            if ((s1[i] == s2[i]) && (s1[i] == '0'))
-                array1.push_back(i);
-
-            else if ((s1[i] == s2[i]) && (s1[i] == '1'))
-                array2.push_back(i);
-        }
-
-        for (int i = 0; i < array2.size(); i++)
-        {
-            for (int j = 0; j < array1.size(); j++)
+            for (j = 0; j < 16; j++)
             {
-                if (array2[i] - array1[j] == 1)
-                {
-                    cout << "yes"
-                         << "\n";
-                    m++;
-                    break;
-                }
+                cout << XOR(i, j) << "\t";
             }
-
-            if (m > 0)
-                break;
+            cout << "\n";
         }
-
-        if (m == 0)
-            cout << "no"
-                 << "\n";
     }
+
+    return 0;
 }
